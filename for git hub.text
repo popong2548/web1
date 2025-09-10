@@ -16,3 +16,42 @@ git push -u origin popong2
 
 ดาวน์โหลดโค้ดจาก GitHub
 git clone https://github.com/popong2548/web1.git
+
+
+```bash
+git push -u origin popong2
+```
+และเกิด error:
+```
+! [rejected]        popong2 -> popong2 (non-fast-forward)
+error: failed to push some refs ...
+hint: Updates were rejected because the tip of your current branch is behind its remote counterpart.
+``
+---
+## 🔍 สาเหตุของปัญหา
+Git แจ้งว่า branch `popong2` **บน GitHub (remote)** มี commit ที่ **ไม่มีใน local ของคุณ** ดังนั้นการ push จึงถูกปฏิเสธ เพราะ Git ไม่ต้องการให้คุณเขียนทับประวัติของ branch โดยไม่ได้ merge ก่อน
+---
+## ✅ วิธีแก้ไข (เลือกหนึ่งในตัวเลือกด้านล่าง)
+### 🛠 ตัวเลือกที่ 1: ดึง (pull) แล้ว merge ก่อน push
+```bash
+git pull origin popong2
+git push -u origin popong2
+```
+หากมี conflict ระหว่างไฟล์ local และ remote, Git จะให้คุณแก้ conflict ก่อน แล้วจึง push ได้
+--
+### 🛠 ตัวเลือกที่ 2: ถ้าคุณ *แน่ใจ* ว่าจะเขียนทับ remote (force push)
+⚠️ **คำเตือน:** การ force push จะลบประวัติการเปลี่ยนแปลงบน remote ที่ไม่มีใน local ของคุณ อาจทำให้ข้อมูลคนอื่นหายได้ถ้าทำงานร่วมกัน
+```bash
+git push -u origin popong2 --force
+```
+ใช้เฉพาะเมื่อ:
+* คุณทำงานคนเดียว หรือ
+* คุณแน่ใจว่า remote branch ไม่มีข้อมูลสำคัญที่คุณต้องการเก็บไว้
+---
+## 💬 สรุป
+| วิธี                       | ความปลอดภัย | ใช้เมื่อ                  |
+| -------------------------- | ----------- | ------------------------- |
+| `git pull` แล้ว `git push` | ✅ ปลอดภัย   | ต้องการรวมการเปลี่ยนแปลง  |
+| `git push --force`         | ⚠️ เสี่ยง   | แน่ใจว่าจะเขียนทับ remote |
+--
+ถ้าคุณไม่แน่ใจว่า branch `popong2` บน GitHub มีอะไรอยู่ หรืออยากให้ช่วยดูว่าควรใช้วิธีไหน บอกเพิ่มได้เลยครับ (หรือลองดูบน GitHub ก็ได้ว่า branch มีไฟล์อะไรหรือไม่)
