@@ -1,0 +1,18 @@
+สร้าง repository ใหม่บน GitHub
+…or create a new repository on the command line
+echo "# web1" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M popong2
+git remote add origin https://github.com/popong2548/web1.git
+git push -u origin popong2
+
+อัพโหลดไฟล์ที่มีอยู่แล้วไปยัง GitHub
+git add .
+git commit -m "commit message"
+git remote add origin https://github.com/popong2548/web1.git
+git push -u origin popong2
+
+ดาวน์โหลดโค้ดจาก GitHub
+git clone https://github.com/popong2548/web1.git
