@@ -12,13 +12,13 @@
       <v-btn text to="/">
         หน้าแรก
       </v-btn>
-      <v-btn text to="/productList">
+      <v-btn text to="/product_list">
         สินค้า
       </v-btn>
-      <v-btn text to="/news">
-        ข่าวสาร
+      <v-btn text to="/order">
+        รถเข็นสินค้า
       </v-btn>
-      <v-btn text to="/explore">
+      <v-btn text to="/register">
         สมัครสมาชิก
       </v-btn>
       <v-btn text to="/login">
@@ -34,21 +34,21 @@
       </v-list-item-icon>
       <v-list-item-title>หน้าแรก</v-list-item-title>
     </v-list-item>
-    <v-list-item to="/productList" link>
+    <v-list-item to="/product_list" link>
       <v-list-item-icon>
         <v-icon>mdi-shopping</v-icon>
       </v-list-item-icon>
       <v-list-item-title>สินค้า</v-list-item-title>
     </v-list-item>
-    <v-list-item to="/news" link>
+    <v-list-item to="/order" link>
       <v-list-item-icon>
-        <v-icon>mdi-newspaper</v-icon>
+        <v-icon>mdi-cart</v-icon>
       </v-list-item-icon>
-      <v-list-item-title>ข่าวสาร</v-list-item-title>
+      <v-list-item-title>รถเข็นสินค้า</v-list-item-title>
     </v-list-item>
-    <v-list-item to="/explore" link>
+    <v-list-item to="/register" link>
       <v-list-item-icon>
-        <v-icon>mdi-magnify</v-icon>
+        <v-icon>mdi-account-edit</v-icon>
       </v-list-item-icon>
       <v-list-item-title>สมัครสมาชิก</v-list-item-title>
     </v-list-item>
