@@ -1,3 +1,16 @@
+<template>
+  <v-app dark>
+    <h1 v-if="error.statusCode === 404">
+      {{ pageNotFound }}
+    </h1>
+    <h1 v-else>
+      {{ otherError }}
+    </h1>
+    <NuxtLink to="/">
+      กลับสู่หน้าหลัก
+    </NuxtLink>
+  </v-app>
+</template>
 
 <script>
 export default {
@@ -10,8 +23,8 @@ export default {
   },
   data () {
     return {
-      pageNotFound: '404 Not Foundกกกกกกกกกกกกก',
-      otherError: 'An error occurred'
+      pageNotFound: '404 ไม่พบหน้านี้',
+      otherError: 'เกิดข้อผิดพลาด'
     }
   },
   head () {

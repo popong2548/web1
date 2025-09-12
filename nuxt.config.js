@@ -6,8 +6,8 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s  Shop', // เปลี่ยนชื่อตรงนี้
-    title: 'Fogger',            // และตรงนี้
+    titleTemplate: '%s  Shop',
+    title: 'Fogger',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -44,20 +44,19 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/proxy' // เพิ่ม proxy module
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    proxy: true // เปิดใช้งาน proxy
+    proxy: true
   },
 
-  // เพิ่มการตั้งค่า proxy
   proxy: {
     '/api/': {
-      target: 'http://localhost/web1/api', // ที่อยู่ของโฟลเดอร์ api ของคุณ
+      target: 'http://localhost/web1/api', 
       pathRewrite: { '^/api/': '' },
     },
   },
@@ -65,17 +64,17 @@ export default {
   // Firebase configuration
   firebase: {
     config: {
-      apiKey: "AIzaSyA1Aol4clfzDkPEhXFHo5mmP1iq0IF_ZkM", // ค่าของคุณ
-      authDomain: "my-nuxt2-project.firebaseapp.com", // ค่าของคุณ
-      projectId: "my-nuxt2-project", // ค่าของคุณ (แก้ไขที่พิมพ์ผิด)
-      storageBucket: "my-nuxt2-project.firebasestorage.app", // ค่าของคุณ
-      messagingSenderId: "954942831355", // ค่าของคุณ
-      appId: "1:954942831355:web:b76747a674850a4e144e5e", // ค่าของคุณ
-      measurementId: "G-NJ10METT5H" // ค่าของคุณ (ถ้ามี)
+      apiKey: "AIzaSyA1Aol4clfzDkPEhXFHo5mmP1iq0IF_ZkM",
+      authDomain: "my-nuxt2-project.firebaseapp.com",
+      projectId: "my-nuxt2-project",
+      storageBucket: "my-nuxt2-project.firebasestorage.app",
+      messagingSenderId: "954942831355",
+      appId: "1:954942831355:web:b76747a674850a4e144e5e",
+      measurementId: "G-NJ10METT5H"
     },
     services: {
-      auth: true, // เปิดใช้งาน Firebase Authentication
-      analytics: true // เปิดใช้งาน Firebase Analytics
+      auth: true,
+      analytics: true
     }
   },
 
@@ -85,16 +84,20 @@ export default {
       dark: false,
       themes: {
         light: {
-          primary: '#ffeb3b',    // เหลืองสด (yellow 500)
-          secondary: '#fdd835',  // เหลืองเข้มกว่า (yellow darken-1)
-          accent: '#ffee58',     // เหลืองสว่าง (yellow lighten-1)
-          info: '#fbc02d',       // เหลืองทอง (yellow darken-2)
-          warning: '#f9a825',    // เหลืองทองเข้ม (yellow darken-3)
-          error: '#f44336',      // แดง (standard error red)
-          success: '#8bc34a'     // เขียวสดใส (light green 500)
+          primary: '#ffeb3b',
+          secondary: '#fdd835',
+          accent: '#ffee58',
+          info: '#fbc02d',
+          warning: '#f9a825',
+          error: '#f44336',
+          success: '#8bc34a'
         }
       }
     }
+  },
+  
+  router: {
+    middleware: ['auth-layout']
   },
 
   /*

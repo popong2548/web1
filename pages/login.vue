@@ -53,11 +53,12 @@
             </v-card-actions>
           </v-card>
           <div class="mt-4 text-center">
-            <v-btn text small to="/forgot" color="grey lighten-3">ลืมรหัสผ่าน?</v-btn>
+            <span class="grey--text text--lighten-3">ยังไม่มีบัญชี?</span>
+            <v-btn text small to="/register" color="primary">สมัครสมาชิกที่นี่</v-btn>
             <br />
             <v-btn text small to="/" color="grey lighten-3">&lt; กลับหน้าแรก</v-btn>
           </div>
-        </div>
+          </div>
       </v-col>
     </v-row>
   </v-container>
@@ -66,7 +67,7 @@
 <script>
 export default {
   name: 'LoginPage',
-  layout: 'empty', // ใช้ layout ว่างเปล่าสำหรับหน้านี้
+  layout: 'empty',
   data() {
     return {
       valid: true,
@@ -96,7 +97,6 @@ export default {
 
         } catch (err) {
           console.error('Firebase Login error:', err);
-          // *** ปรับปรุงการจัดการ Error ให้ครอบคลุม ***
           switch (err.code) {
             case 'auth/invalid-login-credentials':
             case 'auth/user-not-found':

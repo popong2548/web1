@@ -7,6 +7,11 @@
 
       <template v-if="$store.state.auth.user">
         <v-btn text to="/order-history">ประวัติคำสั่งซื้อ</v-btn>
+        
+        <v-btn v-if="$store.state.auth.user.role === 'admin'" text to="/admin/dashboard">
+          แผงควบคุมแอดมิน
+        </v-btn>
+
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
@@ -32,15 +37,6 @@
         </v-menu>
       </template>
 
-      <template v-else>
-        <v-btn text to="/register">
-            สมัครสมาชิก
-        </v-btn>
-        <v-btn text to="/login">
-            เข้าสู่ระบบ
-        </v-btn>
-      </template>
-
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -49,18 +45,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'DefaultLayout',
-  computed: {
-    ...mapGetters('cart', ['cartItemCount']),
-  },
   methods: {
     async logout() {
       try {
         await this.$fire.auth.signOut();
-        this.$router.push('/');
+        this.$router.push('/login');
       } catch (e) {
         console.error("Logout Error:", e);
       }
