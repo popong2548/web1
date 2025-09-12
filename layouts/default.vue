@@ -43,11 +43,9 @@ export default {
     ...mapGetters('cart', ['cartItemCount']),
   },
   methods: {
-    // เพิ่มฟังก์ชันนี้สำหรับออกจากระบบ
     async logout() {
       try {
         await this.$fire.auth.signOut();
-        // หลังจากออกจากระบบ ให้ redirect ไปที่หน้า login
         this.$router.push('/login');
       } catch (e) {
         console.error("Logout Error:", e);

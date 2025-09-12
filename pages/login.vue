@@ -1,9 +1,7 @@
 <template>
   <v-container fill-height fluid class="login-container dark-theme">
     <v-row no-gutters>
-      <!-- ฝั่งซ้าย: ภาพ background -->
       <v-col cols="12" md="6" class="login-bg"></v-col>
-      <!-- ฝั่งขวา: ฟอร์ม login -->
       <v-col cols="12" md="6" class="d-flex align-center justify-center">
         <div class="login-form-wrapper">
           <div class="text-center mb-5">
@@ -51,7 +49,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="dark\" @click="submitLogin" :loading="loading" dark>เข้าสู่ระบบ</v-btn>
+              <v-btn color="dark" @click="submitLogin" :loading="loading" dark>เข้าสู่ระบบ</v-btn>
             </v-card-actions>
           </v-card>
           <div class="mt-4 text-center">
@@ -68,11 +66,11 @@
 <script>
 export default {
   name: 'LoginPage',
-  layout: 'guest',
+  layout: 'empty', // ใช้ layout ว่างเปล่าสำหรับหน้านี้
   data() {
     return {
       valid: true,
-      email: '', // เปลี่ยนเป็น email อย่างเดียว เพื่อให้ตรงกับ Firebase Auth
+      email: '',
       password: '',
       loading: false,
       error: null,
@@ -89,24 +87,21 @@ export default {
         this.error = null;
 
         try {
-          // ใช้ Firebase Authentication ในการเข้าสู่ระบบ
           await this.$fire.auth.signInWithEmailAndPassword(
             this.email,
             this.password
           );
 
-          console.log('เข้าสู่ระบบสำเร็จด้วย Firebase!');
-          this.$router.push('/'); // พาไปหน้า Dashboard หลัง Login สำเร็จ
+          this.$router.push('/'); 
 
         } catch (err) {
           console.error('Firebase Login error:', err);
-          // แปลง Firebase error code เป็นข้อความที่เข้าใจง่าย
+          // *** ปรับปรุงการจัดการ Error ให้ครอบคลุม ***
           switch (err.code) {
+            case 'auth/invalid-login-credentials':
             case 'auth/user-not-found':
-              this.error = 'ไม่พบผู้ใช้นี้';
-              break;
             case 'auth/wrong-password':
-              this.error = 'รหัสผ่านไม่ถูกต้อง';
+              this.error = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
               break;
             case 'auth/invalid-email':
               this.error = 'รูปแบบอีเมลไม่ถูกต้อง';
@@ -119,7 +114,6 @@ export default {
         }
       }
     },
-    // ถ้าคุณมีหน้าสมัครสมาชิก คุณจะใช้ await this.$fire.auth.createUserWithEmailAndPassword(email, password)
   }
 };
 </script>

@@ -27,6 +27,7 @@
 <script>
 export default {
   name: 'IndexPage',
+  layout: 'guest',
   data() {
     return {
       products: [

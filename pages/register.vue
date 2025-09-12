@@ -56,7 +56,7 @@
 <script>
 export default {
   name: 'RegisterPage',
-  layout: 'guest',
+  layout: 'empty',
   data() {
     return {
       valid: true,
@@ -73,35 +73,46 @@ export default {
     };
   },
   methods: {
-      async submitRegister() {
-        if (this.$refs.form.validate()) {
-          this.loading = true;
-          this.error = null;
-          try {
-            // ใช้ $axios ที่ถูกตั้งค่า proxy ไว้แล้ว
-            const result = await this.$axios.$post('/api/register.php', {
-              email: this.email,
-              password: this.password
-            });
+    async submitRegister() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        this.error = null;
+        try {
+          // *** ส่วนสำคัญ: เปลี่ยนมาใช้ Firebase Auth ในการสร้างผู้ใช้ ***
+          await this.$fire.auth.createUserWithEmailAndPassword(
+            this.email,
+            this.password
+          );
+          
+          // เมื่อสมัครสำเร็จ ให้ไปที่หน้า login
+          this.$router.push('/login'); 
 
-            if (result.success) {
-              this.$router.push('/login'); // สมัครสำเร็จไปหน้า login
-            } else {
-              this.error = result.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก';
-            }
-          } catch (err) {
-            console.error('Registration error:', err.response || err);
-            this.error = (err.response && err.response.data && err.response.data.message) || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
-          } finally {
-            this.loading = false;
+        } catch (err) {
+          console.error('Registration error:', err);
+          switch (err.code) {
+            case 'auth/email-already-in-use':
+              this.error = 'อีเมลนี้ถูกใช้งานแล้ว';
+              break;
+            case 'auth/invalid-email':
+              this.error = 'รูปแบบอีเมลไม่ถูกต้อง';
+              break;
+            case 'auth/weak-password':
+              this.error = 'รหัสผ่านไม่ปลอดภัย (ต้องมีอย่างน้อย 6 ตัวอักษร)';
+              break;
+            default:
+              this.error = 'เกิดข้อผิดพลาด: ' + err.message;
           }
+        } finally {
+          this.loading = false;
         }
       }
+    }
   }
 };
 </script>
 
 <style scoped>
+/* CSS Styles here... */
 .login-container.dark-theme {
   min-height: 100vh;
   background: #2b2828;
@@ -118,20 +129,5 @@ export default {
 .dark-card {
   background: #0c0e0e !important;
   color: #fff !important;
-}
-.v-toolbar {
-  background: #ffffff !important;
-}
-.v-card__text, .v-card__actions {
-  color: #fff !important;
-}
-.v-input input, .v-label {
-  color: #fff !important;
-}
-@media (max-width: 960px) {
-  .login-bg {
-    min-height: 200px;
-    height: 200px;
-  }
 }
 </style>

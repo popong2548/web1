@@ -14,7 +14,7 @@
             </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="addToCart(product)">
+            <v-btn color="primary" @click="handleAddToCart(product)">
               <v-icon left>mdi-cart-plus</v-icon>
               เพิ่มลงตะกร้า
             </v-btn>
@@ -26,30 +26,44 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'TestProductsPage',
+  layout: 'guest', // <-- กำหนดให้ใช้ guest layout
   data() {
     return {
       products: [],
     };
   },
+  computed: {
+    ...mapState({
+      user: state => state.auth.user,
+    }),
+  },
   async mounted() {
     try {
-      const res = await fetch('http://localhost/foggershop/products_api.php');
-      this.products = await res.json();
+      const productsData = await this.$axios.$get('/api/products_api.php');
+      this.products = productsData;
     } catch (err) {
       console.error('โหลดข้อมูลสินค้าไม่สำเร็จ:', err);
     }
   },
   methods: {
     ...mapActions('cart', ['addToCart']),
+    handleAddToCart(product) {
+      if (this.user) {
+        this.addToCart(product);
+      } else {
+        this.$router.push('/login');
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+/* CSS Styles here */
 .v-card {
   min-height: 370px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -60,11 +74,5 @@ export default {
 }
 .v-img {
   background: #f5f5f5;
-}
-.v-divider {
-  max-width: 150px;
-  margin: auto;
-  border-width: 2px;
-  border-color: #3f51b5;
 }
 </style>
