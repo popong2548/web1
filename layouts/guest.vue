@@ -4,7 +4,7 @@
         <v-toolbar-title>Fogger Shop</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn text to="/">
-            สินค้า
+            หน้าหลัก
         </v-btn>
         <v-btn text to="/login">
             เข้าสู่ระบบ
