@@ -57,7 +57,7 @@ export default {
   // --- START: แก้ไขส่วนนี้ ---
   proxy: {
     '/api/': {
-      target: 'http://localhost/web1', 
+      target: 'http://localhost:8080/web1', 
       pathRewrite: { '^/api/': '/api/' },
     },
   },
