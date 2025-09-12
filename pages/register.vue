@@ -73,40 +73,38 @@ export default {
     };
   },
   methods: {
-    async submitRegister() {
-      if (this.$refs.form.validate()) {
-        if (this.password !== this.confirmPassword) {
-          this.error = 'รหัสผ่านไม่ตรงกัน';
-          return;
-        }
-        this.loading = true;
-        this.error = null;
-        try {
-          // ใช้ Firebase Authentication ในการสมัครสมาชิก
-          await this.$fire.auth.createUserWithEmailAndPassword(
-            this.email,
-            this.password
-          );
-          this.$router.push('/'); // สมัครสำเร็จไปหน้าแรก
-        } catch (err) {
-          switch (err.code) {
-            case 'auth/email-already-in-use':
-              this.error = 'อีเมลนี้ถูกใช้แล้ว';
-              break;
-            case 'auth/invalid-email':
-              this.error = 'รูปแบบอีเมลไม่ถูกต้อง';
-              break;
-            case 'auth/weak-password':
-              this.error = 'รหัสผ่านอ่อนเกินไป';
-              break;
-            default:
-              this.error = 'เกิดข้อผิดพลาดในการสมัครสมาชิก: ' + err.message;
+      async submitRegister() {
+        if (this.$refs.form.validate()) {
+          if (this.password !== this.confirmPassword) {
+            this.error = 'รหัสผ่านไม่ตรงกัน';
+            return;
           }
-        } finally {
-          this.loading = false;
+          this.loading = true;
+          this.error = null;
+          try {
+            const response = await fetch('/api/register.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email: this.email,
+                password: this.password
+              })
+            });
+            const result = await response.json();
+            if (result.success) {
+              this.$router.push('/'); // สมัครสำเร็จไปหน้าแรก
+            } else {
+              this.error = result.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก';
+            }
+          } catch (err) {
+            this.error = 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
+          } finally {
+            this.loading = false;
+          }
         }
       }
-    }
   }
 };
 </script>
