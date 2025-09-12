@@ -6,12 +6,7 @@
       <v-btn text to="/product_list">สินค้า</v-btn>
 
       <template v-if="$store.state.auth.user">
-        <v-btn text to="/cart">
-          <v-badge :content="cartItemCount" :value="cartItemCount > 0" color="red" overlap>
-            <v-icon>mdi-cart</v-icon>
-          </v-badge>
-          <span class="ml-2">ตะกร้าสินค้า</span>
-        </v-btn>
+        <v-btn text to="/order-history">ประวัติคำสั่งซื้อ</v-btn>
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
