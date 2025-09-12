@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'IndexPage',
-  // layout: 'guest', // <<< ลบบรรทัดนี้
+  // layout: 'guest', // <-- บรรทัดนี้ถูกลบออกแล้ว
   data() {
     return {
       products: [
