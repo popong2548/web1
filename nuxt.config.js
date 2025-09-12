@@ -44,21 +44,30 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy' // เพิ่ม proxy module
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost/model_shop/model_select.php'
-  }, // <-- เพิ่มเครื่องหมายคอมมาไว้ตรงนี้
+    proxy: true // เปิดใช้งาน proxy
+  },
 
-  // <--- เพิ่มออบเจกต์ firebase ตรงนี้
+  // เพิ่มการตั้งค่า proxy
+  proxy: {
+    '/api/': {
+      target: 'http://localhost/web1/api', // ที่อยู่ของโฟลเดอร์ api ของคุณ
+      pathRewrite: { '^/api/': '' },
+    },
+  },
+
+  // Firebase configuration
   firebase: {
     config: {
       apiKey: "AIzaSyA1Aol4clfzDkPEhXFHo5mmP1iq0IF_ZkM", // ค่าของคุณ
       authDomain: "my-nuxt2-project.firebaseapp.com", // ค่าของคุณ
-      projectId: "my-nuxt2-project", // ค่าของคุณ
+      projectId: "my-nuxt2-project", // ค่าของคุณ (แก้ไขที่พิมพ์ผิด)
       storageBucket: "my-nuxt2-project.firebasestorage.app", // ค่าของคุณ
       messagingSenderId: "954942831355", // ค่าของคุณ
       appId: "1:954942831355:web:b76747a674850a4e144e5e", // ค่าของคุณ
@@ -66,10 +75,10 @@ export default {
     },
     services: {
       auth: true, // เปิดใช้งาน Firebase Authentication
-      // firestore: true, // ถ้าคุณจะใช้ Cloud Firestore ด้วย ก็เปิดเป็น true
-      analytics: true // เปิดใช้งาน Firebase Analytics ตามที่คุณได้โค้ดมา
+      analytics: true // เปิดใช้งาน Firebase Analytics
     }
   },
+
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {

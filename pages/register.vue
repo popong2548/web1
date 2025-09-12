@@ -75,31 +75,23 @@ export default {
   methods: {
       async submitRegister() {
         if (this.$refs.form.validate()) {
-          if (this.password !== this.confirmPassword) {
-            this.error = 'รหัสผ่านไม่ตรงกัน';
-            return;
-          }
           this.loading = true;
           this.error = null;
           try {
-            const response = await fetch('/api/register.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                email: this.email,
-                password: this.password
-              })
+            // ใช้ $axios ที่ถูกตั้งค่า proxy ไว้แล้ว
+            const result = await this.$axios.$post('/api/register.php', {
+              email: this.email,
+              password: this.password
             });
-            const result = await response.json();
+
             if (result.success) {
-              this.$router.push('/'); // สมัครสำเร็จไปหน้าแรก
+              this.$router.push('/login'); // สมัครสำเร็จไปหน้า login
             } else {
               this.error = result.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก';
             }
           } catch (err) {
-            this.error = 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
+            console.error('Registration error:', err.response || err);
+            this.error = (err.response && err.response.data && err.response.data.message) || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
           } finally {
             this.loading = false;
           }
