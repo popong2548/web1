@@ -37,6 +37,12 @@
         </v-menu>
       </template>
 
+      <template v-else>
+        <v-btn text to="/login">
+          เข้าสู่ระบบ
+        </v-btn>
+      </template>
+
     </v-app-bar>
     <v-main>
       <Nuxt />

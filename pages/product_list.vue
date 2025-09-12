@@ -1,9 +1,5 @@
 <template>
   <v-container fluid>
-    <div class="text-center mb-6">
-      <h2 class="text-h4 font-weight-bold" style="color: #000000;">📦 สินค้าทั้งหมดของ Fogger Shop 📦</h2>
-      <p class="text-subtitle-1" style="color: #000000;">__________________</p>
-    </div>
     <v-row>
       <v-col cols="12" md="3" v-for="product in products" :key="product.product_id">
         <v-card class="mx-auto" outlined hover>
@@ -13,53 +9,31 @@
             <div class="mt-2 font-weight-bold">{{ product.name }}</div>
             <div class="mt-1" style="font-size: 14px; color: #757575;">{{ product.description }}</div>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="handleAddToCart(product)">
-              <v-icon left>mdi-cart-plus</v-icon>
-              เพิ่มลงตะกร้า
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+          </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-
+// ...
 export default {
   name: 'ProductListPage',
   data() {
     return {
-      products: [],
+      products: [], // ข้อมูลสินค้าจะถูกเก็บที่นี่
     };
-  },
-  computed: {
-    ...mapState({
-      user: state => state.auth.user,
-    }),
   },
   async mounted() {
     try {
+      // ดึงข้อมูลสินค้าจาก API
       const productsData = await this.$axios.$get('/api/products_api.php');
       this.products = productsData;
     } catch (err) {
       console.error('โหลดข้อมูลสินค้าไม่สำเร็จ:', err);
     }
   },
-  methods: {
-    ...mapActions('cart', ['addToCart']),
-    handleAddToCart(product) {
-      if (this.user) {
-        this.addToCart(product);
-        alert(`เพิ่ม '${product.name}' ลงในตะกร้าแล้ว!`);
-      } else {
-        this.$router.push('/login');
-      }
-    },
-  },
+  // ...
 };
 </script>
 

@@ -54,12 +54,14 @@ export default {
     proxy: true
   },
 
+  // --- START: แก้ไขส่วนนี้ ---
   proxy: {
     '/api/': {
-      target: 'http://localhost/web1/api', 
-      pathRewrite: { '^/api/': '' },
+      target: 'http://localhost/web1', 
+      pathRewrite: { '^/api/': '/api/' },
     },
   },
+  // --- END: แก้ไขส่วนนี้ ---
 
   // Firebase configuration
   firebase: {
