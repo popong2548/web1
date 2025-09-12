@@ -1,10 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app color="black" dark>
-      <v-btn text to="/product_list">
-        สินค้า
-      </v-btn>
-
+      <v-toolbar-title>Fogger Shop</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text to="/product_list">สินค้า</v-btn>
       <v-btn text to="/cart">
         <v-badge :content="cartItemCount" :value="cartItemCount > 0" color="red" overlap>
           <v-icon>mdi-cart</v-icon>
@@ -12,31 +11,27 @@
         <span class="ml-2">ตะกร้าสินค้า</span>
       </v-btn>
 
-      <v-btn text to="/register">
-        สมัครสมาชิก
-      </v-btn>
-      <v-btn text to="/login">
-        เข้าสู่ระบบ
-      </v-btn>
-    </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer" app temporary width="300">
-      <v-list nav dense>
-        <v-list-item to="/cart" link>
-          <v-list-item-icon>
-            <v-icon>mdi-cart</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>ตะกร้าสินค้า</v-list-item-title>
-        </v-list-item>
+      <v-menu offset-y v-if="$store.state.auth.user">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on">
+            <v-icon left>mdi-account</v-icon>
+            {{ $store.state.auth.user.email }}
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>ออกจากระบบ</v-list-item-title>
+          </v-list-item>
         </v-list>
-    </v-navigation-drawer>
+      </v-menu>
+      </v-app-bar>
 
     <v-main>
       <Nuxt />
     </v-main>
-
-    <v-footer app>
-    </v-footer>
   </v-app>
 </template>
 
@@ -44,22 +39,20 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      drawer: false,
-    };
-  },
   computed: {
     ...mapGetters('cart', ['cartItemCount']),
   },
+  methods: {
+    // เพิ่มฟังก์ชันนี้สำหรับออกจากระบบ
+    async logout() {
+      try {
+        await this.$fire.auth.signOut();
+        // หลังจากออกจากระบบ ให้ redirect ไปที่หน้า login
+        this.$router.push('/login');
+      } catch (e) {
+        console.error("Logout Error:", e);
+      }
+    }
+  }
 };
 </script>
-
-<style>
-.title-shadow .white--text {
-  text-shadow:
-    2px 2px 4px #000,
-    0 0 2px #000,
-    0 1px 0 #000;
-}
-</style>

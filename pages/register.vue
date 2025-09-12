@@ -56,7 +56,7 @@
 <script>
 export default {
   name: 'RegisterPage',
-  layout: 'empty',
+  layout: 'guest',
   data() {
     return {
       valid: true,

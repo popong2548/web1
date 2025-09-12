@@ -68,7 +68,7 @@
 <script>
 export default {
   name: 'LoginPage',
-  layout: 'empty',
+  layout: 'guest',
   data() {
     return {
       valid: true,
