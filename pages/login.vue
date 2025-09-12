@@ -88,12 +88,21 @@ export default {
         this.error = null;
 
         try {
-          await this.$fire.auth.signInWithEmailAndPassword(
+          // Sign in user
+          const { user } = await this.$fire.auth.signInWithEmailAndPassword(
             this.email,
             this.password
           );
 
-          this.$router.push('/'); 
+          // Fetch user role
+          await this.$store.dispatch('onAuthStateChangedAction', { authUser: user });
+          
+          // Redirect based on role
+          if (this.$store.state.auth.user && this.$store.state.auth.user.role === 'admin') {
+            this.$router.push('/admin/dashboard');
+          } else {
+            this.$router.push('/');
+          }
 
         } catch (err) {
           console.error('Firebase Login error:', err);
