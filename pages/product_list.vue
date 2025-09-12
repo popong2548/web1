@@ -30,7 +30,7 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'TestProductsPage',
-  layout: 'guest', // <-- กำหนดให้ใช้ guest layout
+  // layout: 'guest', // <-- ลบบรรทัดนี้
   data() {
     return {
       products: [],

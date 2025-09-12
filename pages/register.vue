@@ -78,14 +78,20 @@ export default {
         this.loading = true;
         this.error = null;
         try {
-          // *** ส่วนสำคัญ: เปลี่ยนมาใช้ Firebase Auth ในการสร้างผู้ใช้ ***
+          // 1. สร้างผู้ใช้ใน Firebase Authentication
           await this.$fire.auth.createUserWithEmailAndPassword(
             this.email,
             this.password
           );
-          
-          // เมื่อสมัครสำเร็จ ให้ไปที่หน้า login
-          this.$router.push('/login'); 
+
+          // 2. ส่งข้อมูลไปบันทึกที่ฐานข้อมูลของคุณ (PHP API)
+          await this.$axios.post('/api/register.php', {
+            email: this.email,
+            password: this.password
+          });
+
+          // 3. เมื่อสมัครสำเร็จ ให้ไปที่หน้า login
+          this.$router.push('/login');
 
         } catch (err) {
           console.error('Registration error:', err);

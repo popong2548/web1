@@ -3,7 +3,7 @@
     <div class="text-center mb-6">
       <h2 class="text-h4 font-weight-bold" style="color: #000000;">📦แนะนำสินค้า📦</h2>
       <p class="text-subtitle-1" style="color: #000000;">✨งานโมเดลสวยๆ✨</p>
-      
+
     </div>
     <v-row>
       <v-col cols="12" md="3" v-for="(product, i) in products" :key="i">
@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'IndexPage',
-  layout: 'guest',
+  // layout: 'guest', // <<< ลบบรรทัดนี้
   data() {
     return {
       products: [
